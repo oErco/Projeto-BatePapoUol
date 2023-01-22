@@ -106,14 +106,16 @@ function processaErro (resposta){
     console.log(resposta);
 }
 
-function buscaMensagens (){
+/*function buscaMensagens (){
     const promessa = axios.get ('https://mock-api.driven.com.br/api/v6/uol/messages');
     promessa.then (processaMensagens);
     promessa.catch (processaErro);
-}
+}*/
 
 function sucessoRequisicao (resposta){
-    buscaMensagens ();
+    const promessa = axios.get ('https://mock-api.driven.com.br/api/v6/uol/messages');
+    promessa.then (processaMensagens);
+    promessa.catch (processaErro);
 }
 
 function erroRequisicao (){
