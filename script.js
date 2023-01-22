@@ -116,18 +116,9 @@ function sucessoRequisicao (resposta){
     buscaMensagens ();
 }
 
-function erroRequisicao (resposta){
-    console.log (resposta.status);
+function erroRequisicao (){
     alert ("Esse nome de usuário já existe, escolha outro.");
     window.location.reload();
-}
-
-function sucesso (resposta){
-    console.log(resposta);
-}
-
-function erro (resposta){
-    console.log(resposta);
 }
 
 function avisaUsuarioOnline (){
@@ -136,8 +127,6 @@ function avisaUsuarioOnline (){
     };
     const promessaRequisicao = axios.post('https://mock-api.driven.com.br/api/v6/uol/status', dado);
     console.log(nomeUsuario);
-    promessaRequisicao.then(sucesso);
-    promessaRequisicao.catch(erro)
 }
 
 setInterval (avisaUsuarioOnline, 5000);
