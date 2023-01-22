@@ -121,6 +121,9 @@ function mensagemNaoEnviada (){
 
 function enviaMensagens (){
     let mensagem = document.querySelector('.digita-mensagem').value;
+    if (mensagem === ""){
+        return;
+    }
     const dado = {
         from: nomeUsuario,
         to: "Todos",
@@ -130,9 +133,15 @@ function enviaMensagens (){
     document.querySelector('.digita-mensagem').value = '';
     const promessa = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', dado);
     promessa.then(mensagemEnviadaSucesso);
-    promessa.catch (mensagemNaoEnviada);
-    
+    promessa.catch (mensagemNaoEnviada);   
 }
+
+document.addEventListener("keypress", function (evento) {
+    if (evento.key === "Enter"){
+        const botao = document.querySelector('.icone-mandar-mensagem');
+        botao.click();
+    }
+});
 
 function atualizaMensagens (){
     if (conteudoChat.innerHTML !== ''){
@@ -226,7 +235,7 @@ perguntaNomeUsuario();
 
 function perguntaNomeUsuario () {
     nomeUsuario = prompt ("Digite um nome de usuário:");
-    if (nomeUsuario === ''){
+    if (nomeUsuario === null){
         alert ("É necessário digitar um nome de usuário!");
         window.location.reload();
     }
