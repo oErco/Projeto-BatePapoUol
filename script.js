@@ -1,7 +1,7 @@
 let contatoMarcado;
 let visibilidadeMarcada;
 let nomeUsuario;
-
+let conteudoChat = document.querySelector('.conteudo');
 
 function selecionaContato (opcao){
     console.log(contatoMarcado);
@@ -47,11 +47,11 @@ function mostraMenuLateral (){
     menuLateral.classList.remove ('escondido');
 }
 
-function tratarSucesso (){
-    buscaMensagens();
+function mensagemEnviadaSucesso (){
+    atualizaMensagens();
 }
 
-function TratarErro (){
+function mensagemNaoEnviada (){
     window.location.reload();
 }
 
@@ -65,14 +65,24 @@ function enviaMensagens (){
     }
     document.querySelector('.digita-mensagem').value = '';
     const promessa = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', dado);
-    promessa.then(tratarSucesso);
-    promessa.catch (TratarErro);
+    promessa.then(mensagemEnviadaSucesso);
+    promessa.catch (mensagemNaoEnviada);
     
 }
 
+function atualizaMensagens (){
+    if (conteudoChat.innerHTML !== ''){
+        conteudoChat.innerHTML = '';
+        buscaMensagens();
+    }
+}
+
+setInterval (atualizaMensagens, 3000);
+
 function processaMensagens (resposta){
     const arrayMensagens = resposta.data;
-    let conteudoChat = document.querySelector('.conteudo');
+    console.log(arrayMensagens);
+    
     for (let i = 0; i < arrayMensagens.length; i++){
         if (arrayMensagens[i].type === "status"){
             conteudoChat.innerHTML += `
@@ -97,31 +107,28 @@ function processaMensagens (resposta){
                 `;
             }
         
+        } if (arrayMensagens[i] === arrayMensagens[arrayMensagens.length - 1]){
+            conteudoChat.innerHTML += `
+            <span class="ultima" ></span>
+            `;
+            const aparecerUltimaMensagem = document.querySelector('.ultima');
+            aparecerUltimaMensagem.scrollIntoView();
         }
         
     }
 }
 
-function processaErro (resposta){
+function processaErroBuscaMensagens (resposta){
     console.log(resposta);
 }
 
-/*function buscaMensagens (){
+function buscaMensagens (){
     const promessa = axios.get ('https://mock-api.driven.com.br/api/v6/uol/messages');
     promessa.then (processaMensagens);
-    promessa.catch (processaErro);
-}*/
-
-function sucessoRequisicao (resposta){
-    const promessa = axios.get ('https://mock-api.driven.com.br/api/v6/uol/messages');
-    promessa.then (processaMensagens);
-    promessa.catch (processaErro);
+    promessa.catch (processaErroBuscaMensagens);
 }
 
-function erroRequisicao (){
-    //alert ("Esse nome de usuário já existe, escolha outro.");
-    window.location.reload();
-}
+setInterval (avisaUsuarioOnline, 5000);
 
 function avisaUsuarioOnline (){
     const dado = {
@@ -131,16 +138,25 @@ function avisaUsuarioOnline (){
     console.log(nomeUsuario);
 }
 
-setInterval (avisaUsuarioOnline, 5000);
+function nomeUsuarioOk (){
+    buscaMensagens();
+}
+
+function nomeUsuarioInvalido (){
+    alert ("Esse nome de usuário já existe, escolha outro.");
+    window.location.reload();
+}
 
 function checaNomeUsuario (nome){
     const dado = {
         name: `${nome}`
     };
     const promessaRequisicao = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants', dado);
-    promessaRequisicao.then(sucessoRequisicao);
-    promessaRequisicao.catch(erroRequisicao);
+    promessaRequisicao.then(nomeUsuarioOk);
+    promessaRequisicao.catch(nomeUsuarioInvalido);
 }
+
+perguntaNomeUsuario();
 
 function perguntaNomeUsuario () {
     nomeUsuario = prompt ("Digite um nome de usuário:");
@@ -150,5 +166,3 @@ function perguntaNomeUsuario () {
     }
     checaNomeUsuario (nomeUsuario);
 }
-
-perguntaNomeUsuario();
