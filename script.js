@@ -76,14 +76,14 @@ function processaMensagens (resposta){
     for (let i = 0; i < arrayMensagens.length; i++){
         if (arrayMensagens[i].type === "status"){
             conteudoChat.innerHTML += `
-            <div class="status">
+            <div data-test="message" class="status">
                 <span>(${arrayMensagens[i].time}) <span class="negrito">${arrayMensagens[i].from}</span> ${arrayMensagens[i].text}</span>
             </div>
             `;
 
         } if (arrayMensagens[i].type === "message"){
             conteudoChat.innerHTML += `
-            <div class="normais">
+            <div data-test="message" class="normais">
                 <span>(${arrayMensagens[i].time}) <span class="negrito">${arrayMensagens[i].from}</span> para <span class="negrito">${arrayMensagens[i].to}</span>: ${arrayMensagens[i].text}</span>
             </div>
             `;
@@ -91,7 +91,7 @@ function processaMensagens (resposta){
         } if (arrayMensagens[i].type === "private_message"){
             if (nomeUsuario === arrayMensagens[i].to){
                 conteudoChat.innerHTML += `
-                <div class="reservadas">
+                <div data-test="message" class="reservadas">
                     <span>(${arrayMensagens[i].time}) <span class="negrito">${arrayMensagens[i].from}</span> reservadamente para <span class="negrito">${arrayMensagens[i].to}</span>: ${arrayMensagens[i].text}</span>
                 </div>
                 `;
@@ -112,10 +112,8 @@ function buscaMensagens (){
     promessa.catch (processaErro);
 }
 
-buscaMensagens();
-
 function sucessoRequisicao (resposta){
-    console.log(resposta);
+    buscaMensagens ();
 }
 
 function erroRequisicao (resposta){
