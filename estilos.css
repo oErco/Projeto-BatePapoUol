@@ -55,6 +55,7 @@ ion-icon {
 }
 
 .menu {
+    height: 667px;
     position: absolute;
     top: 0px;
     right: 0px;
@@ -119,6 +120,15 @@ ion-icon {
     font-size: 100%;
 }
 
+.enviando-para {
+    width: 299px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 25px;
+    color: #505050;
+}
 
 /* ------------------------ Conteúdo (mensagens) ------------------------------------------*/
 

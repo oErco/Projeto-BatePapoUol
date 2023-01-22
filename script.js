@@ -2,6 +2,9 @@ let contatoMarcado;
 let visibilidadeMarcada;
 let nomeUsuario;
 let conteudoChat = document.querySelector('.conteudo');
+let menuLateral =  document.querySelector('.menu');
+let textoEmbaixoInput = document.querySelector('.enviando-para');
+
 
 function selecionaContato (opcao){
     console.log(contatoMarcado);
@@ -35,6 +38,67 @@ function selecionaVisibilidade (opcao){
         const divIconeCheckVerde = opcao.querySelector('.visibilidade .icone-check');
         divIconeCheckVerde.innerHTML += `<ion-icon name="checkmark-outline"></ion-icon>`;
     }
+}
+
+function atualizaListaParticipantes (){
+    setInterval (obterListaParticipantes , 10000);
+}
+
+function adicionaInfosMenuLateralAntes (){
+        menuLateral.innerHTML += `
+        <div class="texto-negrito">
+            <p>Escolha um contato<br> para enviar mensagem:</p> 
+        </div>
+
+        <div data-test="all" class="texto-menu contato" onclick="selecionaContato (this)">
+            <div class="icones"><ion-icon name="people"></ion-icon></div>
+            <div class="nome-contato" >Todos</div> 
+            <div class="icone-check"></div>
+        </div>
+        `;
+}
+
+function adicionaInfosMenuLateralDepois (){
+        menuLateral.innerHTML += `
+        <div class="texto-negrito">
+            <p>Escolha a visibilidade:</p>
+        </div>
+
+        <div data-test="public" class="texto-menu visibilidade" onclick="selecionaVisibilidade (this)">
+            <div class="icones"><ion-icon name="lock-open"></ion-icon></ion-icon></div>
+            <div class="visib" >Público</div>
+            <div class="icone-check"></div> 
+        </div>
+
+        <div data-test="private" class="texto-menu visibilidade" onclick="selecionaVisibilidade (this)">
+            <div class="icones"><ion-icon name="lock-closed"></ion-icon></ion-icon></div>
+            <div class="visib" >Reservadamente</div>
+            <div class="icone-check"></div>
+        </div>
+        `;
+}
+
+function processaListaParticipantes (resposta){
+    if (menuLateral.innerHTML !== ''){
+        menuLateral.innerHTML = '';
+    }
+    const listaParticipantes = resposta.data;
+    adicionaInfosMenuLateralAntes ();
+    for (let i = 0; i < listaParticipantes.length; i++){
+        menuLateral.innerHTML += `
+        <div data-test="participant" class="texto-menu contato" onclick="selecionaContato (this)">
+            <div class="icones"><ion-icon name="person-circle"></ion-icon></div>
+            <div class="nome-contato" >${listaParticipantes[i].name}</div>
+            <div class="icone-check"></div>
+        </div>
+        `;
+    }
+    adicionaInfosMenuLateralDepois();
+}
+
+function obterListaParticipantes (){
+    const promessa = axios.get ('https://mock-api.driven.com.br/api/v6/uol/participants');
+    promessa.then (processaListaParticipantes);
 }
 
 function escondeMenuLateral (){
@@ -140,6 +204,8 @@ function avisaUsuarioOnline (){
 
 function nomeUsuarioOk (){
     buscaMensagens();
+    obterListaParticipantes ();
+    atualizaListaParticipantes();
 }
 
 function nomeUsuarioInvalido (){

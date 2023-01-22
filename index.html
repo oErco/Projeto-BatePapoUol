@@ -27,47 +27,7 @@
 
             <div data-test="overlay" class="metade-cinza" onclick="escondeMenuLateral ()"></div>
 
-            <div class="menu">
-
-                <div class="texto-negrito">
-                   <p>Escolha um contato<br> para enviar mensagem:</p> 
-                </div>
-
-                <div data-test="all" class="texto-menu contato" onclick="selecionaContato (this)">
-                    <div class="icones"><ion-icon name="people"></ion-icon></div>
-                    <div>Todos</div> 
-                    <div class="icone-check"></div>
-                </div>
-
-                <div data-test="participant" class="texto-menu contato" onclick="selecionaContato (this)">
-                    <div class="icones"><ion-icon name="person-circle"></ion-icon></div>
-                    <div>João</div>
-                    <div class="icone-check"></div>
-                </div>
-
-                <div data-test="participant" class="texto-menu contato" onclick="selecionaContato (this)">
-                    <div class="icones"><ion-icon name="person-circle"></ion-icon></div>
-                    <div>Maria</div>
-                    <div class="icone-check"></div>
-                </div>
-
-                <div class="texto-negrito">
-                    <p>Escolha a visibilidade:</p>
-                </div>
-
-                <div data-test="public" class="texto-menu visibilidade" onclick="selecionaVisibilidade (this)">
-                    <div class="icones"><ion-icon name="lock-open"></ion-icon></ion-icon></div>
-                    <div>Público</div>
-                    <div class="icone-check"></div> 
-                </div>
-
-                <div data-test="private" class="texto-menu visibilidade" onclick="selecionaVisibilidade (this)">
-                    <div class="icones"><ion-icon name="lock-closed"></ion-icon></ion-icon></div>
-                    <div>Reservadamente</div>
-                    <div class="icone-check"></div>
-                </div>
-                
-            </div>
+            <div class="menu"></div>
             
         </div>
 
@@ -76,7 +36,9 @@
         <div class="barra-fixa baixo">
             <div class="campo-digita-mensagem">
                 <input data-test="input-message" class="digita-mensagem" type="text" placeholder="Escreva aqui...">
-            </div>
+                <p class="enviando-para"></p>
+            </div>  
+        
             <div data-test="send-message" class="icone-mandar-mensagem" onclick="enviaMensagens()">
                 <ion-icon name="paper-plane-outline"></ion-icon>
             </div>
