@@ -47,11 +47,75 @@ function mostraMenuLateral (){
     menuLateral.classList.remove ('escondido');
 }
 
+function tratarSucesso (){
+    buscaMensagens();
+}
 
+function TratarErro (){
+    window.location.reload();
+}
+
+function enviaMensagens (){
+    let mensagem = document.querySelector('.digita-mensagem').value;
+    const dado = {
+        from: nomeUsuario,
+        to: "Todos",
+        text: mensagem,
+        type: "message"
+    }
+    document.querySelector('.digita-mensagem').value = '';
+    const promessa = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', dado);
+    promessa.then(tratarSucesso);
+    promessa.catch (TratarErro);
+    
+}
+
+function processaMensagens (resposta){
+    const arrayMensagens = resposta.data;
+    let conteudoChat = document.querySelector('.conteudo');
+    for (let i = 0; i < arrayMensagens.length; i++){
+        if (arrayMensagens[i].type === "status"){
+            conteudoChat.innerHTML += `
+            <div class="status">
+                <span>(${arrayMensagens[i].time}) <span class="negrito">${arrayMensagens[i].from}</span> ${arrayMensagens[i].text}</span>
+            </div>
+            `;
+
+        } if (arrayMensagens[i].type === "message"){
+            conteudoChat.innerHTML += `
+            <div class="normais">
+                <span>(${arrayMensagens[i].time}) <span class="negrito">${arrayMensagens[i].from}</span> para <span class="negrito">${arrayMensagens[i].to}</span>: ${arrayMensagens[i].text}</span>
+            </div>
+            `;
+
+        } if (arrayMensagens[i].type === "private_message"){
+            if (nomeUsuario === arrayMensagens[i].to){
+                conteudoChat.innerHTML += `
+                <div class="reservadas">
+                    <span>(${arrayMensagens[i].time}) <span class="negrito">${arrayMensagens[i].from}</span> reservadamente para <span class="negrito">${arrayMensagens[i].to}</span>: ${arrayMensagens[i].text}</span>
+                </div>
+                `;
+            }
+        
+        }
+        
+    }
+}
+
+function processaErro (resposta){
+    console.log(resposta);
+}
+
+function buscaMensagens (){
+    const promessa = axios.get ('https://mock-api.driven.com.br/api/v6/uol/messages');
+    promessa.then (processaMensagens);
+    promessa.catch (processaErro);
+}
+
+buscaMensagens();
 
 function sucessoRequisicao (resposta){
     console.log(resposta);
-    alert("Nome de usuário válido. Aproveite o chat!");
 }
 
 function erroRequisicao (resposta){

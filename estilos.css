@@ -9,7 +9,6 @@
     top: 0px;
     left: 0px;
     background-color:#F3F3F3;
-    ;
 }
 
 
@@ -124,7 +123,13 @@ ion-icon {
 /* ------------------------ Conteúdo (mensagens) ------------------------------------------*/
 
 .conteudo {
+    height: 75vh;
     margin-top: 106px;
+    margin-bottom: 106px;
+    background-color: #F3F3F3;
+    overflow-y: scroll;
+    
+    
 }
 
 .conteudo div {
