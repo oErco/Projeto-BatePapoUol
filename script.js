@@ -119,7 +119,7 @@ function sucessoRequisicao (resposta){
 }
 
 function erroRequisicao (){
-    alert ("Esse nome de usuário já existe, escolha outro.");
+    //alert ("Esse nome de usuário já existe, escolha outro.");
     window.location.reload();
 }
 
