@@ -172,7 +172,7 @@ function processaMensagens (resposta){
             `;
 
         } if (arrayMensagens[i].type === "private_message"){
-            if (nomeUsuario === arrayMensagens[i].to){
+            if (nomeUsuario === arrayMensagens[i].to || nomeUsuario === arrayMensagens[i].from){
                 conteudoChat.innerHTML += `
                 <div data-test="message" class="reservadas">
                     <span>(${arrayMensagens[i].time}) <span class="negrito">${arrayMensagens[i].from}</span> reservadamente para <span class="negrito">${arrayMensagens[i].to}</span>: ${arrayMensagens[i].text}</span>
