@@ -145,7 +145,6 @@ document.addEventListener("keypress", function (evento) {
 
 function atualizaMensagens (){
     if (conteudoChat.innerHTML !== ''){
-        conteudoChat.innerHTML = '';
         buscaMensagens();
     }
 }
@@ -155,7 +154,7 @@ setInterval (atualizaMensagens, 3000);
 function processaMensagens (resposta){
     const arrayMensagens = resposta.data;
     console.log(arrayMensagens);
-    
+    conteudoChat.innerHTML = '';    
     for (let i = 0; i < arrayMensagens.length; i++){
         if (arrayMensagens[i].type === "status"){
             conteudoChat.innerHTML += `
@@ -219,7 +218,7 @@ function nomeUsuarioOk (){
 
 function nomeUsuarioInvalido (){
     alert ("Esse nome de usuário já existe, escolha outro.");
-    window.location.reload();
+    perguntaNomeUsuario();
 }
 
 function checaNomeUsuario (nome){
@@ -237,7 +236,7 @@ function perguntaNomeUsuario () {
     nomeUsuario = prompt ("Digite um nome de usuário:");
     if (nomeUsuario === null){
         alert ("É necessário digitar um nome de usuário!");
-        window.location.reload();
+        perguntaNomeUsuario();
     }
     checaNomeUsuario (nomeUsuario);
 }
